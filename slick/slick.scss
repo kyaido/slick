@@ -137,6 +137,9 @@ $slick-opacity-not-active: .25 !default;
     outline: none;
     background-color: #fff;
     border-radius: 50%;
+    overflow: hidden;
+    text-indent: 100%;
+    white-space: nowrap;
     opacity: $slick-opacity-default;
     &:hover {
       outline: none;
