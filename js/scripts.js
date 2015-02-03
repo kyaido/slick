@@ -2,35 +2,43 @@ $(document).ready(function() {
     $('.single-item').slick({
         dots: true,
         infinite: true,
-        speed: 300,
+        speed: 500,
         slidesToShow: 1,
         slidesToScroll: 1
     });
     $('.multiple-items').slick({
         dots: true,
         infinite: true,
-        speed: 300,
+        speed: 500,
         slidesToShow: 3,
         slidesToScroll: 3
+    });
+    $('.variable-width').slick({
+        dots: true,
+        infinite: true,
+        speed: 500,
+        slidesToShow: 1,
+        centerMode: true,
+        variableWidth: true
     });
     $('.one-time').slick({
         dots: true,
         infinite: true,
-        speed: 300,
+        speed: 500,
         slidesToShow: 1,
         adaptiveHeight: true
     });
     $('.uneven').slick({
         dots: true,
         infinite: true,
-        speed: 300,
+        speed: 500,
         slidesToShow: 4,
         slidesToScroll: 4
     });
     $('.responsive').slick({
         dots: true,
         infinite: false,
-        speed: 300,
+        speed: 500,
         slidesToShow: 4,
         slidesToScroll: 4,
         responsive: [{
@@ -61,6 +69,7 @@ $(document).ready(function() {
         infinite: true,
         centerPadding: '60px',
         slidesToShow: 3,
+        speed: 500,
         responsive: [{
             breakpoint: 768,
             settings: {
@@ -82,12 +91,13 @@ $(document).ready(function() {
     $('.lazy').slick({
         lazyLoad: 'ondemand',
         slidesToShow: 3,
-        slidesToScroll: 1
+        slidesToScroll: 1,
+        speed: 500
     });
     $('.autoplay').slick({
         dots: true,
         infinite: true,
-        speed: 300,
+        speed: 500,
         slidesToShow: 3,
         slidesToScroll: 1,
         autoplay: true,
@@ -106,16 +116,17 @@ $(document).ready(function() {
     $('.add-remove').slick({
         dots: true,
         slidesToShow: 3,
+        speed: 500,
         slidesToScroll: 3
     });
     var slideIndex = 1;
     $('.js-add-slide').on('click', function() {
         slideIndex++;
-        $('.add-remove').slickAdd('<div><h3>' + slideIndex + '</h3></div>');
+        $('.add-remove').slick('slickAdd','<div><h3>' + slideIndex + '</h3></div>');
     });
 
     $('.js-remove-slide').on('click', function() {
-        $('.add-remove').slickRemove(slideIndex - 1);
+        $('.add-remove').slick('slickRemove',slideIndex - 1);
         if (slideIndex !== 0){
             slideIndex--;
         }
@@ -123,17 +134,18 @@ $(document).ready(function() {
 
     $('.filtering').slick({
         dots: true,
+        speed: 500,
         slidesToShow: 4,
         slidesToScroll: 4
     });
     var filtered = false;
     $('.js-filter').on('click', function() {
         if (filtered === false) {
-            $('.filtering').slickFilter(':even');
+            $('.filtering').slick('slickFilter',':even');
             $(this).text('Unfilter Slides');
             filtered = true;
         } else {
-            $('.filtering').slickUnfilter();
+            $('.filtering').slick('slickUnfilter');
             $(this).text('Filter Slides');
             filtered = false;
         }
@@ -142,6 +154,7 @@ $(document).ready(function() {
     $('.slider-for').slick({
         slidesToShow: 1,
         slidesToScroll: 1,
+        speed: 500,
         arrows: false,
         fade: true,
         asNavFor: '.slider-nav'
@@ -149,10 +162,12 @@ $(document).ready(function() {
     $('.slider-nav').slick({
         slidesToShow: 3,
         slidesToScroll: 1,
+        speed: 500,
         asNavFor: '.slider-for',
         dots: true,
         centerMode: true,
-        focusOnSelect: true
+        focusOnSelect: true,
+        slide: 'div'
     });
 
     $(window).on('scroll', function() {
@@ -175,7 +190,7 @@ $(document).ready(function() {
     $('.single-item-rtl').slick({
         dots: true,
         infinite: true,
-        speed: 300,
+        speed: 500,
         slidesToShow: 1,
         slidesToScroll: 1,
         rtl: true
@@ -184,6 +199,7 @@ $(document).ready(function() {
         dots: true,
         infinite: true,
         slidesToShow: 3,
+        speed: 500,
         slidesToScroll: 3,
         rtl: true
     });
