@@ -347,7 +347,7 @@
             asNavFor = $(asNavFor).not(_.$slider);
         }
 
-        if ( asNavFor !== null && typeof asNavFor === "object" ) {
+        if ( asNavFor !== null && typeof asNavFor === 'object' ) {
             asNavFor.each(function() {
                 var target = $(this).slick('getSlick');
                 if(!target.unslicked) {
@@ -530,7 +530,7 @@
             _.$list.prop('tabIndex', 0);
         }
 
-        _.setSlideClasses(typeof this.currentSlide === 'number' ? this.currentSlide : 0);
+        _.setSlideClasses(typeof _.currentSlide === 'number' ? _.currentSlide : 0);
 
         if (_.options.draggable === true) {
             _.$list.addClass('draggable');
@@ -570,7 +570,7 @@
             _.$slider.html(newSlides);
             _.$slider.children().children().children()
                 .css({
-                    'width':(100 / _.options.slidesPerRow) + "%",
+                    'width':(100 / _.options.slidesPerRow) + '%',
                     'display': 'inline-block'
                 });
         
@@ -705,7 +705,7 @@
                     event.data.index || $target.index() * _.options.slidesToScroll;
 
                 _.slideHandler(_.checkNavigable(index), false, dontAnimate);
-                $target.children().trigger("focus");
+                $target.children().trigger('focus');
                 break;
 
             default:
@@ -838,7 +838,7 @@
         if (_.$slides) {
 
             _.$slides
-                .removeClass('slick-slide slick-active slick-center slick-visible')
+                .removeClass('slick-slide slick-active slick-center slick-visible slick-current')
                 .removeAttr('aria-hidden')
                 .removeAttr('data-slick-index')
                 .each(function(){
@@ -1510,8 +1510,10 @@
 
         var _ = this;
 
-        _.$slides = _.$slideTrack.children(_.options.slide).addClass(
-            'slick-slide');
+        _.$slides = 
+            _.$slideTrack
+                .children(_.options.slide)
+                .addClass('slick-slide');
 
         _.slideCount = _.$slides.length;
 
@@ -1764,7 +1766,7 @@
         }
 
         if ( _.options.fade ) {
-            if ( typeof _.options.zIndex === "number" ) {
+            if ( typeof _.options.zIndex === 'number' ) {
                 if( _.options.zIndex < 3 ) {
                     _.options.zIndex = 3;
                 }
@@ -1812,8 +1814,14 @@
         var _ = this,
             centerOffset, allSlides, indexOffset, remainder;
 
-        _.$slider.find('.slick-slide').removeClass('slick-active').attr('aria-hidden', 'true').removeClass('slick-center');
-        allSlides = _.$slider.find('.slick-slide');
+        allSlides = _.$slider
+            .find('.slick-slide')
+            .removeClass('slick-active slick-center slick-current')
+            .attr('aria-hidden', 'true');
+
+        _.$slides
+            .eq(index)
+            .addClass('slick-current');
 
         if (_.options.centerMode === true) {
 
@@ -1822,36 +1830,78 @@
             if (_.options.infinite === true) {
 
                 if (index >= centerOffset && index <= (_.slideCount - 1) - centerOffset) {
-                    _.$slides.slice(index - centerOffset, index + centerOffset + 1).addClass('slick-active').attr('aria-hidden', 'false');
+
+                    _.$slides
+                        .slice(index - centerOffset, index + centerOffset + 1)
+                        .addClass('slick-active')
+                        .attr('aria-hidden', 'false');
+
                 } else {
+
                     indexOffset = _.options.slidesToShow + index;
-                    allSlides.slice(indexOffset - centerOffset + 1, indexOffset + centerOffset + 2).addClass('slick-active').attr('aria-hidden', 'false');
+                    allSlides
+                        .slice(indexOffset - centerOffset + 1, indexOffset + centerOffset + 2)
+                        .addClass('slick-active')
+                        .attr('aria-hidden', 'false');
+
                 }
 
                 if (index === 0) {
-                    allSlides.eq(allSlides.length - 1 - _.options.slidesToShow).addClass('slick-center');
+
+                    allSlides
+                        .eq(allSlides.length - 1 - _.options.slidesToShow)
+                        .addClass('slick-center');
+
                 } else if (index === _.slideCount - 1) {
-                    allSlides.eq(_.options.slidesToShow).addClass('slick-center');
+
+                    allSlides
+                        .eq(_.options.slidesToShow)
+                        .addClass('slick-center');
+
                 }
 
             }
 
-            _.$slides.eq(index).addClass('slick-center');
+            _.$slides
+                .eq(index)
+                .addClass('slick-center');
 
         } else {
 
             if (index >= 0 && index <= (_.slideCount - _.options.slidesToShow)) {
-                _.$slides.slice(index, index + _.options.slidesToShow).addClass('slick-active').attr('aria-hidden', 'false');
+
+                _.$slides
+                    .slice(index, index + _.options.slidesToShow)
+                    .addClass('slick-active')
+                    .attr('aria-hidden', 'false');
+
             } else if (allSlides.length <= _.options.slidesToShow) {
-                allSlides.addClass('slick-active').attr('aria-hidden', 'false');
+
+                allSlides
+                    .addClass('slick-active')
+                    .attr('aria-hidden', 'false');
+
             } else {
+
                 remainder = _.slideCount % _.options.slidesToShow;
                 indexOffset = _.options.infinite === true ? _.options.slidesToShow + index : index;
+                
                 if (_.options.slidesToShow == _.options.slidesToScroll && (_.slideCount - index) < _.options.slidesToShow) {
-                    allSlides.slice(indexOffset - (_.options.slidesToShow - remainder), indexOffset + remainder).addClass('slick-active').attr('aria-hidden', 'false');
+                    
+                    allSlides
+                        .slice(indexOffset - (_.options.slidesToShow - remainder), indexOffset + remainder)
+                        .addClass('slick-active')
+                        .attr('aria-hidden', 'false');
+
                 } else {
-                    allSlides.slice(indexOffset, indexOffset + _.options.slidesToShow).addClass('slick-active').attr('aria-hidden', 'false');
+
+                    allSlides
+                        .slice(indexOffset, indexOffset + _.options.slidesToShow)
+                        .addClass('slick-active')
+                        .attr('aria-hidden', 'false');
+
                 }
+
             }
 
         }
@@ -1924,24 +1974,23 @@
 
         var _ = this;
 
-        var targetElement = $(event.target).is('.slick-slide') ?
-            $(event.target) :
-            $(event.target).parents('.slick-slide');
+        var targetElement = 
+            $(event.target).is('.slick-slide') ? 
+                $(event.target) : 
+                $(event.target).parents('.slick-slide');
 
         var index = parseInt(targetElement.attr('data-slick-index'));
 
         if (!index) index = 0;
 
         if (_.slideCount <= _.options.slidesToShow) {
-            _.$slider.find('.slick-slide').removeClass('slick-active').attr('aria-hidden', 'true');
-            _.$slides.eq(index).addClass('slick-active').attr("aria-hidden", "false");
-            if (_.options.centerMode === true) {
-                _.$slider.find('.slick-slide').removeClass('slick-center');
-                _.$slides.eq(index).addClass('slick-center');
-            }
+
+            _.setSlideClasses(index);
             _.asNavFor(index);
             return;
+            
         }
+
         _.slideHandler(index);
 
     };
@@ -2023,7 +2072,7 @@
 
         _.animating = true;
 
-        _.$slider.trigger("beforeChange", [_, _.currentSlide, animSlide]);
+        _.$slider.trigger('beforeChange', [_, _.currentSlide, animSlide]);
 
         oldSlide = _.currentSlide;
         _.currentSlide = animSlide;
@@ -2128,7 +2177,7 @@
         }
 
         if (_.touchObject.edgeHit === true) {
-            _.$slider.trigger("edge", [_, _.swipeDirection()]);
+            _.$slider.trigger('edge', [_, _.swipeDirection()]);
         }
 
         if (_.touchObject.swipeLength >= _.touchObject.minSwipe) {
@@ -2139,7 +2188,7 @@
                     _.slideHandler(slideCount);
                     _.currentDirection = 0;
                     _.touchObject = {};
-                    _.$slider.trigger("swipe", [_, "left"]);
+                    _.$slider.trigger('swipe', [_, 'left']);
                     break;
 
                 case 'right':
@@ -2147,7 +2196,7 @@
                     _.slideHandler(slideCount);
                     _.currentDirection = 1;
                     _.touchObject = {};
-                    _.$slider.trigger("swipe", [_, "right"]);
+                    _.$slider.trigger('swipe', [_, 'right']);
                     break;
             }
         } else {
@@ -2244,7 +2293,7 @@
         _.touchObject.edgeHit = false;
 
         if (_.options.infinite === false) {
-            if ((_.currentSlide === 0 && swipeDirection === "right") || (_.currentSlide >= _.getDotCount() && swipeDirection === "left")) {
+            if ((_.currentSlide === 0 && swipeDirection === 'right') || (_.currentSlide >= _.getDotCount() && swipeDirection === 'left')) {
                 swipeLength = _.touchObject.swipeLength * _.options.edgeFriction;
                 _.touchObject.edgeHit = true;
             }
@@ -2316,16 +2365,23 @@
         var _ = this;
 
         $('.slick-cloned', _.$slider).remove();
+
         if (_.$dots) {
             _.$dots.remove();
         }
+
         if (_.$prevArrow && (typeof _.options.prevArrow !== 'object')) {
             _.$prevArrow.remove();
         }
+
         if (_.$nextArrow && (typeof _.options.nextArrow !== 'object')) {
             _.$nextArrow.remove();
         }
-        _.$slides.removeClass('slick-slide slick-active slick-visible').attr("aria-hidden", "true").css('width', '');
+
+        _.$slides
+            .removeClass('slick-slide slick-active slick-visible slick-current')
+            .attr('aria-hidden', 'true')
+            .css('width', '');
 
     };
 
@@ -2368,8 +2424,16 @@
 
         if (_.$dots !== null) {
 
-            _.$dots.find('li').removeClass('slick-active').attr("aria-hidden", "true");
-            _.$dots.find('li').eq(Math.floor(_.currentSlide / _.options.slidesToScroll)).addClass('slick-active').attr("aria-hidden", "false");
+            _.$dots
+                .find('li')
+                .removeClass('slick-active')
+                .attr('aria-hidden', 'true');
+
+            _.$dots
+                .find('li')
+                .eq(Math.floor(_.currentSlide / _.options.slidesToScroll))
+                .addClass('slick-active')
+                .attr('aria-hidden', 'false');
 
         }
 
